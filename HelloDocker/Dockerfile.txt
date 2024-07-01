@@ -1,0 +1,9 @@
+# Use the official Microsoft .NET image as a parent image
+FROM mcr.microsoft.com/dotnet/runtime:6.0 AS base
+WORKDIR /app
+
+# Copy the published app into the container
+COPY . .
+
+# Run the app
+ENTRYPOINT ["dotnet", "HelloDocker.dll"]
