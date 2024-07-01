@@ -26,4 +26,3 @@ jobs:
 
     - name: Run Docker container
       run: docker run ${{ secrets.DOCKER_HUB_USERNAME }}/hello-docker-csharp
-
