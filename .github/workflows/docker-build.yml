@@ -7,7 +7,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -25,10 +24,14 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-buildx-
 
-    - name: Build Docker image
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+    - name: Build and push Docker image
       run: |
-        docker build . --file HelloDocker/Dockerfile --tag HelloDocker:latest
+        docker build . --file HelloDocker/Dockerfile --tag ${{ secrets.DOCKER_HUB_USERNAME }}/hello-docker-csharp:latest
+        docker push ${{ secrets.DOCKER_HUB_USERNAME }}/hello-docker-csharp:latest
 
     - name: Run Docker container
       run: |
-        docker run HelloDocker:latest
+        docker run ${{ secrets.DOCKER_HUB_USERNAME }}/hello-docker-csharp:latest
